@@ -12,7 +12,7 @@ r = Ray(origin, direction)
 
 s1 = Sphere(0,0,0,1)
 s2 = Sphere()
-
+#
 i = Intersection(1,s1)
 print(i.t)
 
