@@ -1,13 +1,16 @@
 
 import math
+from helpers.point import Point
+from helpers.vector import Vector
+from helpers.matrix import Matrix
 class Ray:
-    def __init__(self, origin, direction):
+    def __init__(self, origin: Point, direction: Vector):
         self.origin = origin
         self.direction = direction.normalize()
 
-    def position(self, t):
+    def position(self, t: float) -> Point:
         return self.origin + self.direction * t
-    def transform(self, matrix):
+    def transform(self, matrix: Matrix):
         org = self.origin.tmulm(matrix.inverse()) #.inverse()
         dir = self.direction.tmulm(matrix.inverse())
         return Ray(org, dir)

@@ -1,8 +1,6 @@
 import random
 from helpers.vector4 import Tuple
-from helpers.vector import Vector
-from helpers.point import Point
-from helpers.ray import Ray
+
 class Matrix:
 
     def __init__(self, rows, cols):
@@ -112,12 +110,12 @@ class Matrix:
             total += sign * self.mat[0][x] * self.submatrix(0, x).determinant()
         return total
 
-        for x in range(self.dimX):
-            sign = (-1) ** x
-            minor = self.submatrix(0, x)
-            total += sign * self.mat[0][x] * minor.determinant()
+        # for x in range(self.dimX):
+        #     sign = (-1) ** x
+        #     minor = self.submatrix(0, x)
+        #     total += sign * self.mat[0][x] * minor.determinant()
 
-        return total
+        # return total
 
             
 

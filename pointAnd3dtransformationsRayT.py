@@ -7,13 +7,14 @@ canvas = [[[0, 0, 0] for _ in range(width)] for _ in range(height)]
 
 center_x = width // 2
 center_y = height // 2
-scale = 40
+scale = 80
 
 points = []
 
+numPoints = 100
 # build circle in XY plane
-for i in range(100):
-    theta = 2 * math.pi * i / 100
+for i in range(numPoints):
+    theta = 2 * math.pi * i / numPoints
     x = math.cos(theta) * 5
     y = math.sin(theta) * 5
     z = 0
@@ -36,7 +37,7 @@ for p in points:
     x = int(center_x + p2.x * scale)
     y = int(center_y + p2.y * scale)
 
-    draw_point(canvas, x, y, [200, 0, 0], radius=2)
+    draw_point(canvas, x, y, [200, 0, 0], 5)
 
 
 

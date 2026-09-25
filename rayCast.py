@@ -3,37 +3,27 @@ from helpers.point import Point
 from helpers.vector import Vector
 from helpers.shapes import Sphere
 from helpers.threedoperations import Intersection
+from helpers.threedoperations import Intersections
 from helpers.transformations import Transform
-origin = Point(0,1,0)
+origin = Point(0,0,0)
 direction = Vector(0,0,1)
 
 r = Ray(origin, direction)
 
-p =r.position(4)
-
-p.print()
-
 s1 = Sphere(0,0,0,1)
 s2 = Sphere()
 
-print(s1.id)
-print(s2.id)
-
-i = Intersection(s1.intersect(r),s1)
+i = Intersection(1,s1)
 print(i.t)
 
+i2 = Intersection(2,s2)
 
-print("First R")
-r.print()
-m = Transform.scaling(2,5,5)
-m2 = Transform.translation(5,4,3)
+iList = Intersections(i,i2)
 
-r2 = r.transform(m)
+iList.add_intersect(Intersection(-3,s2))
 
-print("Newly transformed R")
-r2.print()
+print(f"total intersections: {iList.count}")
+print(f"intersection at ray 1 {iList[0].object}")
+print(f"intersection at ray 2 {iList[1].t}")
 
-
-r3 = r.transform(m2)
-print("Translated R")
-r3.print()
+print(iList.hit())
