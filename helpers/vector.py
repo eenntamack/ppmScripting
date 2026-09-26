@@ -15,3 +15,5 @@ class Vector(Tuple):
             self.y / mag,
             self.z / mag
         )
+    def __str__(self):
+        return f"({self.x},{self.y},{self.z})"

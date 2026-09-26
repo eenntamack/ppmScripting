@@ -147,3 +147,5 @@ class Matrix:
                 inv.mat[y][x] = adj.mat[y][x] / det
         return inv
     
+    def __str__(self):
+        return f"({self.mat[0]},{self.mat[1]},{self.mat[2]},{self.mat[3]})"
