@@ -5,14 +5,18 @@ from helpers.point import Point
 from helpers.vector import Vector
 from helpers.shapes import Sphere
 from helpers.transformations import Transform
+from helpers.color import Color
+from helpers.lights import PointLight
+from helpers.lighting import Lighting
+from helpers.material import Material
 
 
 # ============================================================
 # CANVAS
 # ============================================================
 
-width = 200
-height = 200
+width = 400
+height = 400
 
 canvas = [
     [[0, 0, 0] for _ in range(width)]
@@ -26,18 +30,36 @@ canvas = [
 
 s1 = Sphere(0, 0, 0, 1)
 
-# Put sphere directly in front of camera
-s1.set_transform(
-    Transform.translation(0, 0, 3)
-)
+# IMPORTANT:
+# This replaces the previous transform.
+# s1.set_transform(
+#     Transform.scaling(0.5, 2, 1)
+# )
 
 inverse = s1.transform.inverse()
 
-print("SPHERE TRANSFORM:")
-print(s1.transform)
 
-print("\nINVERSE:")
-print(inverse)
+# ============================================================
+# MATERIAL
+# ============================================================
+
+s1.material = Material(
+    Color(1, 1, 1),
+    ambient=0.1,
+    diffuse=0.9,
+    specular=0.9,
+    shininess=200
+)
+
+
+# ============================================================
+# LIGHT
+# ============================================================
+
+light = PointLight(
+    Point(-10, 10, -10),
+    Color(1, 1, 1)
+)
 
 
 # ============================================================
@@ -74,43 +96,50 @@ for y in range(height):
         )
 
         # Camera → pixel
-        direction = pixel - camera
-
-        # Normalize
-        direction = direction.normalize()
+        direction = (pixel - camera).normalize()
 
         # Create ray
-        ray = Ray(
-            camera,
-            direction
-        )
+        ray = Ray(camera, direction)
 
-        # IMPORTANT:
-        # Pass the already-calculated inverse.
+        # Intersect sphere
         intersections = s1.intersect(
             ray,
             inverse
         )
 
+        # Find closest visible intersection
         hit = intersections.hit()
 
         if hit is not None:
-            canvas[y][x] = [200, min(math.floor(0 + x/5) ,255), 0]
-        if x == width // 2 and y == height // 2:
 
-            print("CENTER RAY")
-            print("origin:", ray.origin)
-            print("direction:", ray.direction)
+            # Find point where ray hit sphere
+            point = ray.position(hit.t)
 
-            test_intersections = s1.intersect(ray, inverse)
+            # Find surface normal
+            normal = s1.normal_at(point)
 
-            print("intersections:", test_intersections)
-            print("count:", test_intersections.count)
+            # Eye vector points from hit point toward camera
+            eyev = -ray.direction
 
-            for intersection in test_intersections.inters:
-                print("t =", intersection.t)
+            # Calculate lighting
+            color = Lighting.lighting(
+                s1.material,
+                light,
+                point,
+                eyev,
+                normal
+            )
 
-            print("hit:", test_intersections.hit())
+            # Convert Color 0-1+ → RGB 0-255
+            r = max(0, min(1, color.r))
+            g = max(0, min(1, color.g))
+            b = max(0, min(1, color.b))
+
+            canvas[y][x] = [
+                round(r * 255),
+                round(g * 255),
+                round(b * 255)
+            ]
 
 
 # ============================================================
@@ -126,11 +155,9 @@ with open(filename, "w") as f:
     f.write("255\n")
 
     for row in canvas:
-
         for r, g, b in row:
             f.write(f"{r} {g} {b} ")
 
         f.write("\n")
-
 
 print(f"\nRendered sphere to {filename}")

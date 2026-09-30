@@ -6,7 +6,7 @@ from helpers.matrix import Matrix
 class Ray:
     def __init__(self, origin: Point, direction: Vector):
         self.origin = origin
-        self.direction = direction.normalize()
+        self.direction = direction #.normalize()
 
     def position(self, t: float) -> Point:
         return self.origin + self.direction * t
@@ -19,3 +19,5 @@ class Ray:
         self.origin.print()
         print("Direction")
         self.direction.print()
+    def __neg__(self):
+        return Ray(self.origin,-self.direction)

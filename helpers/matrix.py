@@ -117,10 +117,6 @@ class Matrix:
 
         # return total
 
-            
-
-
-
     def minor(self, r, c):
         return self.submatrix(r, c).determinant()
         

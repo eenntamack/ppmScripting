@@ -1,4 +1,14 @@
 import math
+
+EPSILON = 1e-5
+
+def approx_equal(a, b, epsilon=EPSILON):
+    return abs(a - b) < epsilon
+
+def clean_float(x, epsilon=1e-9):
+    if abs(x) < epsilon:
+        return 0.0
+    return x
 class Tuple:
     def __init__(self, x, y, z, w):
         self.x = x
@@ -53,14 +63,14 @@ class Tuple:
         print(f"({x},{y},{z})")
     def __sub__(self,other):
         return self.__class__(
-            self.x - other.x,
-            self.y - other.y,
-            self.z - other.z,
-            self.w - other.w
+            clean_float(self.x - other.x),
+            clean_float(self.y - other.y),
+            clean_float(self.z - other.z),
+            clean_float(self.w - other.w)
 
         )
     def dot(self, other):
-        return self.x*other.x + self.y*other.y + self.z*other.z
+        return clean_float(self.x*other.x + self.y*other.y + self.z*other.z)
     
     def tmulm (self,other):
 
