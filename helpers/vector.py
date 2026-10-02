@@ -23,3 +23,15 @@ class Vector(Tuple):
             -self.y,
             -self.z
         )
+    def cross(self,other):
+            return Vector(
+                self.y * other.z - self.z * other.y,
+                self.z * other.x - self.x * other.z,
+                self.x * self.y - self.y * other.x
+            )
+    def __sub__(self,other):
+            return self.__class__(
+                self.x - other.x,
+                self.y - other.y,
+                self.z - other.z,
+            )

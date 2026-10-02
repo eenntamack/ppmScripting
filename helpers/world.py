@@ -12,7 +12,7 @@ class World:
     @classmethod
     def default_world(cls):
         light = PointLight(
-            Point(-10, 10, -10),
+            Point(-10, 5, -10),
             Color(1, 1, 1)
         )
 
@@ -22,9 +22,13 @@ class World:
         s1.material.specular = 0.2
 
         s2 = Sphere()
+        s2.material.color = Color(0.8,0.2,0.8)
+        s2.material.diffuse = 0.8
+        s2.material.specular = 0.8
         s2.set_transform(
-            Transform.scaling(0.5, 0.5, 0.5)
+             Transform.translation(1,1,0) * Transform.scaling(0.5, 0.5, 0.5) 
         )
+       
 
         return cls(
             objects=[s1, s2],

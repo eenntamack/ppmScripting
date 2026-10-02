@@ -42,13 +42,13 @@ class Computations:
             intersection.object.normal_at(point)
         )
     def shade_hit(self, w: World):
-        print("material color:", self.object.material.color)
+        # print("material color:", self.object.material.color)
 
-        print("ambient:", self.object.material.ambient)
+        # print("ambient:", self.object.material.ambient)
 
-        print("diffuse:", self.object.material.diffuse)
+        # print("diffuse:", self.object.material.diffuse)
 
-        print("specular:", self.object.material.specular)
+        # print("specular:", self.object.material.specular)
             
         return Lighting.lighting(
             self.object.material,

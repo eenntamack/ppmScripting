@@ -14,12 +14,14 @@ id_gen = IDGenerator()
 class Shape:
     pass
 class Sphere(Shape):
-    def __init__(self, x=0, y=0, z=0, r=1, material:Material = Material()):
+    def __init__(self, x=0, y=0, z=0, r=1, material = None):
         self.origin = Vector(x, y, z)
         self.r = r
         self.id = id_gen.create(self.__class__)
         self.intersections = []
         self.transform = Transform.identity()
+        if material == None:
+            material = Material()
         self.material = material
 
     def intersect(self, ray: Ray, inverse_transform=None):

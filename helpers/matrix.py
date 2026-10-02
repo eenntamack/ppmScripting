@@ -1,6 +1,7 @@
 import random
 from helpers.vector4 import Tuple
-
+from helpers.vector import Vector
+from helpers.point import Point
 class Matrix:
 
     def __init__(self, rows, cols):
@@ -49,11 +50,18 @@ class Matrix:
         if isinstance(other, Tuple):
             if self.cols != 4:
                 raise ValueError("Transform matrix must be 4x4")
+
             x = self.mat[0][0]*other.x + self.mat[0][1]*other.y + self.mat[0][2]*other.z + self.mat[0][3]*other.w
             y = self.mat[1][0]*other.x + self.mat[1][1]*other.y + self.mat[1][2]*other.z + self.mat[1][3]*other.w
             z = self.mat[2][0]*other.x + self.mat[2][1]*other.y + self.mat[2][2]*other.z + self.mat[2][3]*other.w
             w = self.mat[3][0]*other.x + self.mat[3][1]*other.y + self.mat[3][2]*other.z + self.mat[3][3]*other.w
-            return Tuple(x, y, z, w)
+
+            if w == 1:
+                return Point(x, y, z)
+            elif w == 0:
+                return Vector(x, y, z)
+            else:
+                return Tuple(x, y, z, w)
         
     def copy(self):
         m = Matrix(self.rows, self.cols)
@@ -145,3 +153,9 @@ class Matrix:
     
     def __str__(self):
         return f"({self.mat[0]},{self.mat[1]},{self.mat[2]},{self.mat[3]})"
+    
+    def __getitem__(self, index):
+        return self.mat[index]
+
+    def __setitem__(self, index, value):
+        self.mat[index] = value

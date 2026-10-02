@@ -4,11 +4,11 @@ from helpers.ray_functions import Ray_OP
 
 class Lighting:
     @staticmethod
-    def lighting(m: Material, light, point, eyev, normalv):
+    def lighting(m: Material, light, position, eyev, normalv, in_shadow = False):
 
         effective_color = m.color * light.intensity
 
-        lightv = (light.position - point).normalize()
+        lightv = (light.position - position).normalize()
 
         ambient = effective_color * m.ambient
 
@@ -30,5 +30,7 @@ class Lighting:
             else:
                 factor = pow(reflect_dot_eye, m.shininess)
                 specular = light.intensity * m.specular * factor
-
+        if in_shadow :
+            diffuse = Color(0,0,0)
+            specular = Color(0,0,0)
         return ambient + diffuse + specular
